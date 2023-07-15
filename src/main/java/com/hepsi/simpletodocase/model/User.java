@@ -3,18 +3,17 @@ package com.hepsi.simpletodocase.model;
 import com.hepsi.simpletodocase.enums.ERole;
 import com.hepsi.simpletodocase.enums.RegisterType;
 import lombok.*;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.*;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Document
 public class User implements Serializable{
 
@@ -22,10 +21,9 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationStrategy.USE_ATTRIBUTES)
-    private String uuid;
+    private String userId;
 
-    @CreatedDate
-    private Timestamp createdAt;
+    private Instant createdAt;
 
     private String emailAddress;
 
@@ -37,5 +35,10 @@ public class User implements Serializable{
 
     private RegisterType registerType;
 
-    public User() {}
+    private Boolean isDeleted;
+
+    private Instant deletedDate;
+
+    private Instant updatedDate;
+
 }

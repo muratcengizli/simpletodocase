@@ -13,7 +13,6 @@ import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.couchbase.core.convert.CouchbaseCustomConversions;
 import org.springframework.data.couchbase.repository.config.RepositoryOperationsMapping;
-
 import java.util.Collections;
 
 @Configuration
@@ -33,6 +32,9 @@ public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
 
     @Value("${todo.bucket-user}")
     private String userBucket;
+
+    @Value("${todo.bucket-item}")
+    private String itemBucket;
 
     @Override
     public String getConnectionString() {
