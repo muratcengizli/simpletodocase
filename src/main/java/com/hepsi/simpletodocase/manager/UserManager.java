@@ -8,6 +8,7 @@ import com.hepsi.simpletodocase.model.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserManager {
     /**
@@ -30,8 +31,8 @@ public interface UserManager {
      */
     ResponseBaseModel<ResponseEntity<String>> delete(String userId);
     /**
-     * finds user in db and delete to the user
-     * @return String
+     * get active users
+     * @return List<User>
      */
     List<User> getAll();
 

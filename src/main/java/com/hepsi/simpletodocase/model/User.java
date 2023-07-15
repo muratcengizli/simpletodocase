@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Getter
@@ -24,21 +23,13 @@ public class User implements Serializable{
     private String userId;
 
     private Instant createdAt;
-
     private String emailAddress;
-
     private String password;
-
     private String name;
-
     private ERole role;
-
     private RegisterType registerType;
-
     private Boolean isDeleted;
-
     private Instant deletedDate;
-
     private Instant updatedDate;
 
 }

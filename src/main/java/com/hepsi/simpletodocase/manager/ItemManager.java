@@ -5,7 +5,6 @@ import com.hepsi.simpletodocase.dto.response.ItemResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.model.Item;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 public interface ItemManager {
@@ -28,6 +27,9 @@ public interface ItemManager {
      * @return String
      */
     ResponseBaseModel<ResponseEntity<String>> delete(String itemId);
-
+    /**
+     * get active items
+     * @return List<Item>
+     */
     List<Item> getAll();
 }

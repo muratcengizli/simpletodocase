@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -41,37 +43,38 @@ public class ItemManagerImpl implements ItemManager {
     @Transactional
     public ResponseBaseModel<ResponseEntity<ItemResponseModel>> update(String itemId, ItemTodoDTO itemTodoDTO) {
 
-        Item item = itemRepository.findById(itemId);
-        if (item.equals(null))
+        Item item = itemRepository.findById(itemId).get();
+        if (ObjectUtils.isEmpty(item))
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ItemResponseModel()), Constants.ITEM_NOT_FOUND);
 
         if(!itemTodoDTO.getDescription().isEmpty())
             item.setDescription(itemTodoDTO.getDescription());
 
-        if (Objects.equals(Boolean.TRUE, Boolean.valueOf(itemTodoDTO.getIsDone())))
-            item.setIsDone(false);
-        else
-            item.setIsDone(true);
+        if (!Boolean.valueOf(itemTodoDTO.getIsDone()).equals(null))
+            item.setIsDone(itemTodoDTO.getIsDone());
 
         item.setModifiedDate(Instant.now());
+        itemRepository.save(item);
         return new ResponseBaseModel<>(
                 ResponseEntity.status(HttpStatus.OK).body(new ItemResponseModel(item)));
     }
     @Override
     @Transactional
     public ResponseBaseModel<ResponseEntity<String>> delete(String itemId) {
-        Item item = itemRepository.findById(itemId);
+
+        Item item = itemRepository.findById(itemId).get();
         if (item.equals(null))
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.ITEM_NOT_FOUND));
         item.setIsDeleted(true);
         item.setDeletedDate(Instant.now());
+        itemRepository.save(item);
         return new ResponseBaseModel<>(
                 ResponseEntity.status(HttpStatus.OK).body(Constants.DELETED));
     }
 
     @Override
-    public List<Item> getAll() {return itemRepository.findAll();}
+    public List<Item> getAll() {return itemRepository.findByIsDeleted(false);}
 
 }

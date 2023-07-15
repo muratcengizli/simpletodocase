@@ -14,9 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+
 import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserManagerImpl implements UserManager {
@@ -45,8 +46,8 @@ public class UserManagerImpl implements UserManager {
     @Transactional
     public ResponseBaseModel<ResponseEntity<UserResponseModel>> update(String userId, UserEditDTO userEditDTO) {
 
-        User user = userRepository.findByEmailAddress(userId);
-        if (user.equals(null))
+        User user = userRepository.findById(userId).get();
+        if (ObjectUtils.isEmpty(user))
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.USER_NOT_FOUND);
 
@@ -60,6 +61,7 @@ public class UserManagerImpl implements UserManager {
             user.setName(userEditDTO.getName());
 
         user.setUpdatedDate(Instant.now());
+        userRepository.save(user);
         return new ResponseBaseModel<>(
                 ResponseEntity.status(HttpStatus.OK).body(new UserResponseModel(user)));
     }
@@ -67,21 +69,18 @@ public class UserManagerImpl implements UserManager {
     @Transactional
     public ResponseBaseModel<ResponseEntity<String>> delete(String userId) {
 
-        User user = userRepository.findById(userId);
-        if (user.equals(null))
+        User user = userRepository.findById(userId).get();
+        if (ObjectUtils.isEmpty(user))
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.USER_NOT_FOUND));
 
         user.setIsDeleted(true);
         user.setDeletedDate(Instant.now());
+        userRepository.save(user);
         return new ResponseBaseModel<>(
-                ResponseEntity.status(HttpStatus.OK).body(Constants.DELETED));
+                ResponseEntity.status(HttpStatus.OK).body(""), Constants.DELETED);
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
-
+    public List<User> getAll() {return userRepository.findByIsDeleted(false);}
 }

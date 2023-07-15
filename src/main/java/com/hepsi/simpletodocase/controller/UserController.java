@@ -52,7 +52,8 @@ public class UserController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String userId, BindingResult result) throws Exception {
+    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String userId,
+                                                            @Valid @RequestBody UserEditDTO userEditDTO, BindingResult result) throws Exception {
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
             try{

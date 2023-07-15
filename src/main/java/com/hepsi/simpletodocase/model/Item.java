@@ -9,7 +9,6 @@ import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Getter
@@ -26,15 +25,10 @@ public class Item implements Serializable {
     private String itemId;
 
     private String description;
-
     private Boolean isDone;
-
     private Instant createdDate;
-
     private Instant modifiedDate;
-
     private Boolean isDeleted;
-
     private Instant deletedDate;
 
 }

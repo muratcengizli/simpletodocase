@@ -49,7 +49,9 @@ public class ItemController {
         return itemManager.update(itemId, itemTodoDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String id, BindingResult result) throws Exception {
+    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String id,
+                                                            @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
+
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
             try{
