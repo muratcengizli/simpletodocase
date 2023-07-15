@@ -20,8 +20,9 @@ public class ItemController {
 
     public ItemController(ItemManager itemManager) {this.itemManager = itemManager;}
 
-    @PostMapping("/create")
-    public ResponseEntity<ItemResponseModel> create(@Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
+    @PostMapping("/create/{id}")
+    public ResponseEntity<ItemResponseModel> create(@PathVariable("id") String userId,
+                                                    @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
             try{
@@ -31,7 +32,8 @@ public class ItemController {
             }
         }
 
-        return itemManager.save(itemTodoDTO);
+        return itemManager.save(userId,itemTodoDTO);
+
     }
 
     @PutMapping("/update/{id}")

@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -30,5 +32,6 @@ public class Item implements Serializable {
     private Instant modifiedDate;
     private Boolean isDeleted;
     private Instant deletedDate;
+    private String userId;
 
 }

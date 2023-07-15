@@ -5,6 +5,7 @@ import com.hepsi.simpletodocase.dto.request.UserRegisterDTO;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.dto.response.UserResponseModel;
 import com.hepsi.simpletodocase.manager.UserManager;
+import com.hepsi.simpletodocase.model.Item;
 import com.hepsi.simpletodocase.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -67,4 +68,10 @@ public class UserController {
     }
     @GetMapping("/getAll")
     public List<User> getAll() {return userManager.getAll();}
+
+    @GetMapping("/getAllItems/{id}")
+    public List<Item> getAllItems(@PathVariable("id") String userId) throws Exception {
+        return userManager.getAllItems(userId);
+    }
+
 }

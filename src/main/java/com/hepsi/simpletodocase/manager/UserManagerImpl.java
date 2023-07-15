@@ -6,6 +6,7 @@ import com.hepsi.simpletodocase.dto.response.UserResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.enums.ERole;
 import com.hepsi.simpletodocase.enums.RegisterType;
+import com.hepsi.simpletodocase.model.Item;
 import com.hepsi.simpletodocase.model.User;
 import com.hepsi.simpletodocase.repository.UserRepository;
 import com.hepsi.simpletodocase.util.Constants;
@@ -23,6 +24,9 @@ import java.util.*;
 public class UserManagerImpl implements UserManager {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ItemManager itemManager;
 
     @Override
     @Transactional
@@ -83,4 +87,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public List<User> getAll() {return userRepository.findByIsDeleted(false);}
+
+    @Override
+    public List<Item> getAllItems(String userId) {
+
+        return itemManager.getAllItemsByUser(userId);
+    }
+
 }

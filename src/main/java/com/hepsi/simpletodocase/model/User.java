@@ -5,9 +5,11 @@ import com.hepsi.simpletodocase.enums.RegisterType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.core.mapping.id.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,5 +33,4 @@ public class User implements Serializable{
     private Boolean isDeleted;
     private Instant deletedDate;
     private Instant updatedDate;
-
 }

@@ -5,6 +5,9 @@ import com.hepsi.simpletodocase.dto.response.ItemResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.model.Item;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 import java.util.List;
 
 public interface ItemManager {
@@ -13,7 +16,8 @@ public interface ItemManager {
      * @param itemTodoDTO - itemTodoDTO
      * @return RegisterResponseModel
      */
-    ResponseEntity<ItemResponseModel> save(ItemTodoDTO itemTodoDTO);
+    ResponseEntity<ItemResponseModel> save(String userId, ItemTodoDTO itemTodoDTO);
+
     /**
      * Converts ItemTodoDTO to an item and update to db as an item
      * @param itemId - itemId
@@ -32,4 +36,6 @@ public interface ItemManager {
      * @return List<Item>
      */
     List<Item> getAll();
+
+    List<Item> getAllItemsByUser(String userId);
 }

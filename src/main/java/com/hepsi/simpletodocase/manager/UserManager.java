@@ -4,8 +4,10 @@ import com.hepsi.simpletodocase.dto.request.UserEditDTO;
 import com.hepsi.simpletodocase.dto.request.UserRegisterDTO;
 import com.hepsi.simpletodocase.dto.response.UserResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
+import com.hepsi.simpletodocase.model.Item;
 import com.hepsi.simpletodocase.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,4 +38,9 @@ public interface UserManager {
      */
     List<User> getAll();
 
+    /**
+     * get active items of specific user
+     * @return List<Item>
+     */
+    List<Item>getAllItems(String userId);
 }

@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -23,9 +23,10 @@ public class ItemManagerImpl implements ItemManager {
 
     @Autowired
     private ItemRepository itemRepository;
+
     @Override
     @Transactional
-    public ResponseEntity<ItemResponseModel> save(ItemTodoDTO itemTodoDTO) {
+    public ResponseEntity<ItemResponseModel> save(String userId, ItemTodoDTO itemTodoDTO) {
         Item item = new Item();
         item.setItemId(String.valueOf(UUID.randomUUID()));
         if(!itemTodoDTO.getDescription().equals(null))
@@ -35,6 +36,7 @@ public class ItemManagerImpl implements ItemManager {
         item.setModifiedDate(null);
         item.setDeletedDate(null);
         item.setIsDeleted(false);
+        item.setUserId(userId);
         item.setCreatedDate(Instant.now());
         itemRepository.save(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ItemResponseModel(item));
@@ -76,5 +78,11 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public List<Item> getAll() {return itemRepository.findByIsDeleted(false);}
+
+    @Override
+    public List<Item> getAllItemsByUser(String userId) {
+
+        return itemRepository.findItemsByUserIdAndIsDeleted(userId, false);
+    }
 
 }
