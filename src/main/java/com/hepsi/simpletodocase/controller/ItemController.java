@@ -50,9 +50,26 @@ public class ItemController {
 
         return itemManager.update(itemId, itemTodoDTO);
     }
-    @PutMapping("/delete/{id}")
-    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String itemId,
+    @PutMapping("/passive-delete/{id}")
+    public ResponseBaseModel<ResponseEntity<String>> passiveDelete(@PathVariable("id") String itemId,
                                                             @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
+
+
+        if (result != null && result.hasErrors() && result.getFieldError() != null) {
+            try{
+                throw new Exception(result.getFieldError().getDefaultMessage());
+            } catch (Exception e) {
+                throw new Exception("binding result error");
+            }
+        }
+
+        return itemManager.passiveDelete(itemId);
+    }
+    @GetMapping("/getAll")
+    public ResponseBaseModel<ResponseEntity<List<Item>>> getAll() {return itemManager.getAll();}
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") String itemId, BindingResult result) throws Exception {
 
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
@@ -65,6 +82,4 @@ public class ItemController {
 
         return itemManager.delete(itemId);
     }
-    @GetMapping("/getAll")
-    public ResponseBaseModel<ResponseEntity<List<Item>>> getAll() {return itemManager.getAll();}
 }

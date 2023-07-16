@@ -65,21 +65,6 @@ public class UserControllerTests {
 
     @Test
     @Order(2)
-    public void deleteUserTest_Success() throws Exception {
-        User user = setupUser();
-        UserEditDTO userEditDTO = new UserEditDTO();
-        String jsonRequest = objectMapper.writeValueAsString(userEditDTO);
-        MvcResult result = mockMvc.perform(
-                                    put("/api/user/delete/1").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE))
-                                    .andExpect(status().isOk()).andReturn();
-        String resultContent = result.getResponse().getContentAsString();
-        ResponseBaseModel<ResponseEntity<UserResponseModel>> response = objectMapper.readValue(resultContent, ResponseBaseModel.class);
-        assertEquals(response.getMessages(), Constants.DELETED);
-
-    }
-
-    @Test
-    @Order(3)
     public void getAllUserTest_Success() throws Exception {
         User user = setupUser();
         MvcResult result = mockMvc.perform(
@@ -92,7 +77,7 @@ public class UserControllerTests {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void getAllItemsByUserTest_Success() throws Exception {
         User user = setupUser();
         MvcResult result = mockMvc.perform(

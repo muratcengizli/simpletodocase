@@ -5,9 +5,6 @@ import com.hepsi.simpletodocase.dto.response.ItemResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.model.Item;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 import java.util.List;
 
 public interface ItemManager {
@@ -31,8 +28,14 @@ public interface ItemManager {
      * @param itemId - itemId
      * @return String
      */
-    ResponseBaseModel<ResponseEntity<String>> delete(String itemId);
+    ResponseBaseModel<ResponseEntity<String>> passiveDelete(String itemId);
 
+    /**
+     * finds item in db and delete to the item from db
+     * @param itemId - itemId
+     * @return String
+     */
+    String delete(String itemId);
     /**
      * finds item in db and delete to the item from db
      * @param item - item

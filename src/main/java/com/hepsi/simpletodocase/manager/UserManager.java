@@ -7,10 +7,8 @@ import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.model.Item;
 import com.hepsi.simpletodocase.model.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
+
 
 public interface UserManager {
     /**
@@ -31,13 +29,18 @@ public interface UserManager {
      * @param userId - userId
      * @return String
      */
-    ResponseBaseModel<ResponseEntity<String>> delete(String userId);
+    ResponseBaseModel<ResponseEntity<String>> passiveDelete(String userId);
     /**
      * finds user in db and delete to the user
      * @param user - user
-     * @return String
      */
     void delete(User user);
+    /**
+     * finds user in db and delete to the user
+     * @param userId - userId
+     * @return String
+     */
+    String delete(String userId);
     /**
      * get active users as a ResponseModel
      * @return ResponseBaseModel<ResponseEntity<List<User>>>

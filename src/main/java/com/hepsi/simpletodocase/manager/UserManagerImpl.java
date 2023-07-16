@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-
 import java.time.Instant;
 import java.util.*;
 
@@ -81,9 +80,12 @@ public class UserManagerImpl implements UserManager {
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.NOT_UPDATED);
         }
     }
+
+
+
     @Override
     @Transactional
-    public ResponseBaseModel<ResponseEntity<String>> delete(String userId) {
+    public ResponseBaseModel<ResponseEntity<String>> passiveDelete(String userId) {
 
         try{
             User user = userRepository.findById(userId).get();
@@ -94,7 +96,6 @@ public class UserManagerImpl implements UserManager {
             user.setIsDeleted(true);
             user.setDeletedDate(Instant.now());
             userRepository.save(user);
-            delete(user);
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.OK).body(""), Constants.DELETED);
 
@@ -106,6 +107,12 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void delete(User user) {userRepository.delete(user);}
+
+    @Override
+    public String delete(String userId) {
+        delete(userRepository.findById(userId).get());
+        return Constants.DELETED;
+    }
 
     @Override
     public ResponseBaseModel<ResponseEntity<List<User>>> getAll() {

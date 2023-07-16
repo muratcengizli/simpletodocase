@@ -64,7 +64,7 @@ public class UserController {
             }
         }
 
-        return userManager.delete(userId);
+        return userManager.passiveDelete(userId);
     }
     @GetMapping("/getAll")
     public ResponseBaseModel<ResponseEntity<List<User>>> getAll() {return userManager.getAll();}
@@ -72,6 +72,20 @@ public class UserController {
     @GetMapping("/getAllItems/{id}")
     public ResponseBaseModel<ResponseEntity<List<Item>>> getAllItems(@PathVariable("id") String userId) throws Exception {
         return userManager.getAllItemsByUser(userId);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") String userId, BindingResult result) throws Exception {
+
+        if (result != null && result.hasErrors() && result.getFieldError() != null) {
+            try{
+                throw new Exception(result.getFieldError().getDefaultMessage());
+            } catch (Exception e) {
+                throw new Exception("binding result error");
+            }
+        }
+
+        return userManager.delete(userId);
     }
 
 }

@@ -3,7 +3,6 @@ package com.hepsi.simpletodocase.manager;
 import com.hepsi.simpletodocase.dto.request.ItemTodoDTO;
 import com.hepsi.simpletodocase.dto.response.ItemResponseModel;
 import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
-import com.hepsi.simpletodocase.dto.response.UserResponseModel;
 import com.hepsi.simpletodocase.model.Item;
 import com.hepsi.simpletodocase.repository.ItemRepository;
 import com.hepsi.simpletodocase.util.Constants;
@@ -13,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,7 +73,7 @@ public class ItemManagerImpl implements ItemManager {
     }
     @Override
     @Transactional
-    public ResponseBaseModel<ResponseEntity<String>> delete(String itemId) {
+    public ResponseBaseModel<ResponseEntity<String>> passiveDelete(String itemId) {
         try{
             Item item = itemRepository.findById(itemId).get();
             if (ObjectUtils.isEmpty(item))
@@ -85,7 +82,6 @@ public class ItemManagerImpl implements ItemManager {
             item.setIsDeleted(true);
             item.setDeletedDate(Instant.now());
             itemRepository.save(item);
-            delete(item);
             return new ResponseBaseModel<>(
                     ResponseEntity.status(HttpStatus.OK).body(""), Constants.DELETED);
 
@@ -96,7 +92,13 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public void delete(Item item) {itemRepository.delete(item);}
+    public void delete(Item item) {itemRepository.delete(item);;}
+
+    @Override
+    public String delete(String itemId) {
+       delete(itemRepository.findById(itemId).get());
+        return Constants.DELETED;
+    }
 
     @Override
     public ResponseBaseModel<ResponseEntity<List<Item>>> getAll() {

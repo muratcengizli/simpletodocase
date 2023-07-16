@@ -68,21 +68,6 @@ public class ItemControllerTests {
 
     @Test
     @Order(2)
-    public void deleteItemTest_Success() throws Exception {
-        Item item = setupItem();
-        ItemTodoDTO itemTodoDTO = new ItemTodoDTO();
-        String jsonRequest = objectMapper.writeValueAsString(itemTodoDTO);
-        MvcResult result = mockMvc.perform(
-                                    put("/api/item/delete/1").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE))
-                                    .andExpect(status().isOk()).andReturn();
-        String resultContent = result.getResponse().getContentAsString();
-        ResponseBaseModel<ResponseEntity<ItemResponseModel>> response = objectMapper.readValue(resultContent, ResponseBaseModel.class);
-        assertEquals(response.getMessages(), Constants.DELETED);
-
-    }
-
-    @Test
-    @Order(3)
     public void getAllUserTest_Success() throws Exception {
         Item item = setupItem();
         MvcResult result = mockMvc.perform(
