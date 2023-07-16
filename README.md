@@ -61,7 +61,5 @@ https://hub.docker.com/repository/docker/muratcengizli/simpletodocaseapp
 ![Swagger](https://github.com/muratcengizli/simpletodocase/assets/72807094/395f9487-2521-40f6-85b8-af74e7d3467e)
 ![Docker-Hub](https://github.com/muratcengizli/simpletodocase/assets/72807094/88684e1b-db5c-4c0e-b811-d8d5341d7ec0)
 ![postman2](https://github.com/muratcengizli/simpletodocase/assets/72807094/ca451260-0744-4ec9-9dd4-28b8537ebf0f)
-
-
-
+![Couchbase](https://github.com/muratcengizli/simpletodocase/assets/72807094/6817b1ef-7869-4ae9-b8b5-fcf248308b70)
 
