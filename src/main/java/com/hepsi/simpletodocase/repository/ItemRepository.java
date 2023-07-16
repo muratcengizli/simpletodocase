@@ -1,7 +1,9 @@
 package com.hepsi.simpletodocase.repository;
 
+import com.hepsi.simpletodocase.dto.response.ResponseBaseModel;
 import com.hepsi.simpletodocase.model.Item;
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;

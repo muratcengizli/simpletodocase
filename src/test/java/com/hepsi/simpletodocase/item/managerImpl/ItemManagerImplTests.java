@@ -2,7 +2,6 @@ package com.hepsi.simpletodocase.item.managerImpl;
 
 import com.hepsi.simpletodocase.manager.ItemManager;
 import com.hepsi.simpletodocase.model.Item;
-import com.hepsi.simpletodocase.model.User;
 import com.hepsi.simpletodocase.repository.ItemRepository;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -10,11 +9,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import java.time.Instant;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -49,8 +46,8 @@ public class ItemManagerImplTests {
         Item item1 = item;
         item.setItemId("2");
         Mockito.when(itemRepository.save(item1)).thenReturn(item1);
-        Mockito.when(itemManager.getAll()).thenReturn(Stream.of(item, item1).collect(Collectors.toList()));
-        assertEquals(2, itemManager.getAll().size());
+        Mockito.when(itemManager.getAlls()).thenReturn(Stream.of(item, item1).collect(Collectors.toList()));
+        assertEquals(2, itemManager.getAlls().size());
 
     }
 

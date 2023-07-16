@@ -21,8 +21,8 @@ public class ItemController {
     public ItemController(ItemManager itemManager) {this.itemManager = itemManager;}
 
     @PostMapping("/create/{id}")
-    public ResponseEntity<ItemResponseModel> create(@PathVariable("id") String userId,
-                                                    @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
+    public ResponseBaseModel<ResponseEntity<ItemResponseModel>> create(@PathVariable("id") String userId,
+                                                                       @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
             try{
@@ -51,7 +51,7 @@ public class ItemController {
         return itemManager.update(itemId, itemTodoDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String id,
+    public ResponseBaseModel<ResponseEntity<String>> delete(@PathVariable("id") String itemId,
                                                             @Valid @RequestBody ItemTodoDTO itemTodoDTO, BindingResult result) throws Exception {
 
 
@@ -63,8 +63,8 @@ public class ItemController {
             }
         }
 
-        return itemManager.delete(id);
+        return itemManager.delete(itemId);
     }
     @GetMapping("/getAll")
-    public List<Item> getAll() {return itemManager.getAll();}
+    public ResponseBaseModel<ResponseEntity<List<Item>>> getAll() {return itemManager.getAll();}
 }

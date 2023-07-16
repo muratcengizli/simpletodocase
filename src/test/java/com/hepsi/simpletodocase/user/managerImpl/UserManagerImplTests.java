@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-
 @SpringBootTest
 public class UserManagerImplTests {
 
@@ -49,12 +48,12 @@ public class UserManagerImplTests {
     @Test
     @Order(2)
     void testGetUsers_Success() {
-        User user = setup();
-        User user1 = user;
-        user1.setUserId("2");
-        Mockito.when(userRepository.save(user1)).thenReturn(user1);
-        Mockito.when(userManager.getAll()).thenReturn(Stream.of(user, user1).collect(Collectors.toList()));
-        assertEquals(2, userManager.getAll().size());
+            User user = setup();
+            User user1 = user;
+            user1.setUserId("2");
+            Mockito.when(userRepository.save(user1)).thenReturn(user1);
+            Mockito.when(userManager.getAlls()).thenReturn(Stream.of(user, user1).collect(Collectors.toList()));
+            assertEquals(2, userManager.getAlls().size());
 
     }
 
@@ -75,8 +74,8 @@ public class UserManagerImplTests {
         Item item1 = item;
         item1.setItemId("2");
         Mockito.when(itemRepository.save(item1)).thenReturn(item1);
-        Mockito.when(userManager.getAllItemsByUser(user.getUserId())).thenReturn(Stream.of(item, item1).collect(Collectors.toList()));
-        assertEquals(2, userManager.getAllItemsByUser(user.getUserId()).size());
+        Mockito.when(userManager.getAllItemByUser(user.getUserId())).thenReturn(Stream.of(item, item1).collect(Collectors.toList()));
+        assertEquals(2, userManager.getAllItemByUser(user.getUserId()).size());
 
     }
 

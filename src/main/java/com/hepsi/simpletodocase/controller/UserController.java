@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseModel> createPersonal(@Valid @RequestBody UserRegisterDTO userRegisterDTO, BindingResult result) throws Exception {
+    public ResponseBaseModel<ResponseEntity<UserResponseModel>> createPersonal(@Valid @RequestBody UserRegisterDTO userRegisterDTO, BindingResult result) throws Exception {
 
         if (result != null && result.hasErrors() && result.getFieldError() != null) {
             try{
@@ -67,10 +67,10 @@ public class UserController {
         return userManager.delete(userId);
     }
     @GetMapping("/getAll")
-    public List<User> getAll() {return userManager.getAll();}
+    public ResponseBaseModel<ResponseEntity<List<User>>> getAll() {return userManager.getAll();}
 
     @GetMapping("/getAllItems/{id}")
-    public List<Item> getAllItems(@PathVariable("id") String userId) throws Exception {
+    public ResponseBaseModel<ResponseEntity<List<Item>>> getAllItems(@PathVariable("id") String userId) throws Exception {
         return userManager.getAllItemsByUser(userId);
     }
 

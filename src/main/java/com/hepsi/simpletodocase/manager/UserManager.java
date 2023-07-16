@@ -18,7 +18,7 @@ public interface UserManager {
      * @param userRegisterDTO - userRegisterDTO
      * @return RegisterResponseModel
      */
-    ResponseEntity<UserResponseModel> save(UserRegisterDTO userRegisterDTO);
+    ResponseBaseModel<ResponseEntity<UserResponseModel>> save(UserRegisterDTO userRegisterDTO);
     /**
      * Converts UserEditDTO to lUser and update to db for a user
      * @param userId - userId
@@ -39,15 +39,26 @@ public interface UserManager {
      */
     void delete(User user);
     /**
+     * get active users as a ResponseModel
+     * @return ResponseBaseModel<ResponseEntity<List<User>>>
+     */
+    ResponseBaseModel<ResponseEntity<List<User>>> getAll();
+    /**
      * get active users
      * @return List<User>
      */
-    List<User> getAll();
+    List<User> getAlls();
 
     /**
+     * get active items of specific user as a ResponseModel
+     * @return ResponseBaseModel<ResponseEntity<List<Item>>>
+     */
+    ResponseBaseModel<ResponseEntity<List<Item>>> getAllItemsByUser(String userId);
+    /**
      * get active items of specific user
+     * @param userId - userId
      * @return List<Item>
      */
-    List<Item>getAllItemsByUser(String userId);
+    List<Item> getAllItemByUser(String userId);
 
 }

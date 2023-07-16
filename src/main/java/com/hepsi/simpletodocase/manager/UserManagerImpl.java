@@ -30,7 +30,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public ResponseEntity<UserResponseModel> save(UserRegisterDTO userRegisterDTO) {
+    public ResponseBaseModel<ResponseEntity<UserResponseModel>> save(UserRegisterDTO userRegisterDTO) {
 
         User user = new User();
         user.setEmailAddress(userRegisterDTO.getEmailAddress());
@@ -43,55 +43,88 @@ public class UserManagerImpl implements UserManager {
         user.setDeletedDate(null);
         user.setIsDeleted(false);
         user.setCreatedAt(Instant.now());
-        userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponseModel(user));
+        try{
+            userRepository.save(user);
+            return new ResponseBaseModel<>(
+                    ResponseEntity.status(HttpStatus.CREATED).body(new UserResponseModel(user)), Constants.CREATED);
+
+        }catch(Exception e)  {
+            return new ResponseBaseModel<>(
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.NOT_CREATED);
+        }
     }
     @Override
     @Transactional
     public ResponseBaseModel<ResponseEntity<UserResponseModel>> update(String userId, UserEditDTO userEditDTO) {
+        try{
+            User user = userRepository.findById(userId).get();
+            if (ObjectUtils.isEmpty(user))
+                return new ResponseBaseModel<>(
+                        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.USER_NOT_FOUND);
 
-        User user = userRepository.findById(userId).get();
-        if (ObjectUtils.isEmpty(user))
+            if(!userEditDTO.getEmailAddress().isEmpty())
+                user.setEmailAddress(userEditDTO.getName());
+
+            if(!userEditDTO.getPassword().isEmpty())
+                user.setPassword(userEditDTO.getPassword());
+
+            if(!userEditDTO.getName().isEmpty())
+                user.setName(userEditDTO.getName());
+
+            user.setUpdatedDate(Instant.now());
+            userRepository.save(user);
             return new ResponseBaseModel<>(
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.USER_NOT_FOUND);
+                    ResponseEntity.status(HttpStatus.OK).body(new UserResponseModel(user)));
 
-        if(!userEditDTO.getEmailAddress().isEmpty())
-            user.setEmailAddress(userEditDTO.getName());
-
-        if(!userEditDTO.getPassword().isEmpty())
-            user.setPassword(userEditDTO.getPassword());
-
-        if(!userEditDTO.getName().isEmpty())
-            user.setName(userEditDTO.getName());
-
-        user.setUpdatedDate(Instant.now());
-        userRepository.save(user);
-        return new ResponseBaseModel<>(
-                ResponseEntity.status(HttpStatus.OK).body(new UserResponseModel(user)));
+        }catch(Exception e){
+            return new ResponseBaseModel<>(
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserResponseModel()), Constants.NOT_UPDATED);
+        }
     }
     @Override
     @Transactional
     public ResponseBaseModel<ResponseEntity<String>> delete(String userId) {
 
-        User user = userRepository.findById(userId).get();
-        if (ObjectUtils.isEmpty(user))
-            return new ResponseBaseModel<>(
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.USER_NOT_FOUND));
+        try{
+            User user = userRepository.findById(userId).get();
+            if (ObjectUtils.isEmpty(user))
+                return new ResponseBaseModel<>(
+                        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.USER_NOT_FOUND));
 
-        user.setIsDeleted(true);
-        user.setDeletedDate(Instant.now());
-        userRepository.save(user);
-        return new ResponseBaseModel<>(
-                ResponseEntity.status(HttpStatus.OK).body(""), Constants.DELETED);
+            user.setIsDeleted(true);
+            user.setDeletedDate(Instant.now());
+            userRepository.save(user);
+            delete(user);
+            return new ResponseBaseModel<>(
+                    ResponseEntity.status(HttpStatus.OK).body(""), Constants.DELETED);
+
+        }catch(Exception e){
+            return new ResponseBaseModel<>(
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(""), Constants.NOT_DELETED);
+        }
     }
 
     @Override
     public void delete(User user) {userRepository.delete(user);}
 
     @Override
-    public List<User> getAll() {return userRepository.findByIsDeleted(false);}
+    public ResponseBaseModel<ResponseEntity<List<User>>> getAll() {
+        return new ResponseBaseModel<>(
+                ResponseEntity.status(HttpStatus.OK).body(userRepository.findByIsDeleted(false)), Constants.USERS_LISTED);
+    }
 
     @Override
-    public List<Item> getAllItemsByUser(String userId) {return itemManager.getAllItemsByUser(userId);}
+    public List<User> getAlls() {
+        return userRepository.findByIsDeleted(false);
+    }
+
+    @Override
+    public ResponseBaseModel<ResponseEntity<List<Item>>> getAllItemsByUser(String userId) {
+        return itemManager.getAllItemsByUser(userId);}
+
+    @Override
+    public List<Item> getAllItemByUser(String userId) {
+        return itemManager.getAllItemByUser(userId);
+    }
 
 }
