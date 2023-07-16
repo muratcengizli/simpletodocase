@@ -26,11 +26,17 @@ public interface ItemManager {
      */
     ResponseBaseModel<ResponseEntity<ItemResponseModel>> update(String itemId, ItemTodoDTO itemTodoDTO);
     /**
-     * finds item in db and delete to the item from db
+     * finds item in db and save item as deleted
      * @param itemId - itemId
      * @return String
      */
     ResponseBaseModel<ResponseEntity<String>> delete(String itemId);
+    /**
+     * finds item in db and delete to the item from db
+     * @param item - item
+     * @return String
+     */
+    void delete(Item item);
     /**
      * get active items
      * @return List<Item>

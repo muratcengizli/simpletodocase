@@ -27,11 +27,17 @@ public interface UserManager {
      */
     ResponseBaseModel<ResponseEntity<UserResponseModel>> update(String userId, UserEditDTO userEditDTO);
     /**
-     * finds user in db and delete to the user
+     * finds user in db and save user as deleted
      * @param userId - userId
      * @return String
      */
     ResponseBaseModel<ResponseEntity<String>> delete(String userId);
+    /**
+     * finds user in db and delete to the user
+     * @param user - user
+     * @return String
+     */
+    void delete(User user);
     /**
      * get active users
      * @return List<User>
@@ -42,5 +48,6 @@ public interface UserManager {
      * get active items of specific user
      * @return List<Item>
      */
-    List<Item>getAllItems(String userId);
+    List<Item>getAllItemsByUser(String userId);
+
 }

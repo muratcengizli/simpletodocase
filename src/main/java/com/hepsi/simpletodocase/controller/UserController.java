@@ -71,7 +71,7 @@ public class UserController {
 
     @GetMapping("/getAllItems/{id}")
     public List<Item> getAllItems(@PathVariable("id") String userId) throws Exception {
-        return userManager.getAllItems(userId);
+        return userManager.getAllItemsByUser(userId);
     }
 
 }

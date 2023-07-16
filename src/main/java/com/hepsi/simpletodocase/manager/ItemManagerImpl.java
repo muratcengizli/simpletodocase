@@ -77,6 +77,9 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
+    public void delete(Item item) {itemRepository.delete(item);}
+
+    @Override
     public List<Item> getAll() {return itemRepository.findByIsDeleted(false);}
 
     @Override

@@ -1,8 +1,10 @@
 package com.hepsi.simpletodocase.dto.response;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ResponseBaseModel<T> {
 
     private T data;
@@ -16,4 +18,5 @@ public class ResponseBaseModel<T> {
         this.data = data;
         this.messages = messages;
     }
+
 }

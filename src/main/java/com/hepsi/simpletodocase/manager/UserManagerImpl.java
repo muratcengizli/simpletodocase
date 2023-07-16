@@ -86,12 +86,12 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public void delete(User user) {userRepository.delete(user);}
+
+    @Override
     public List<User> getAll() {return userRepository.findByIsDeleted(false);}
 
     @Override
-    public List<Item> getAllItems(String userId) {
-
-        return itemManager.getAllItemsByUser(userId);
-    }
+    public List<Item> getAllItemsByUser(String userId) {return itemManager.getAllItemsByUser(userId);}
 
 }
